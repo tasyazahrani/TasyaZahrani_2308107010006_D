@@ -3,83 +3,83 @@
 #include <string.h>
 #include <ctype.h>
 
-#define PANJANG_KATA_MAKS 100
-#define MAKS_TAMPILAN 25
+#define MAX_WORD_LENGTH 100
+#define MAX_DISPLAY 25
 
 // Struktur node untuk linked list
-typedef struct Simpul {
-    char kata[PANJANG_KATA_MAKS];
-    struct Simpul* berikutnya;
-} Simpul;
+typedef struct Node {
+    char word[MAX_WORD_LENGTH];
+    struct Node* next;
+} Node;
 
 // Fungsi untuk membuat node baru
-Simpul* buatSimpul(const char* kata) {
-    Simpul* simpulBaru = (Simpul*)malloc(sizeof(Simpul));
-    if (!simpulBaru) {
+Node* createNode(const char* word) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (!newNode) {
         printf("Gagal mengalokasikan memori!\n");
         exit(1);
     }
-    strcpy(simpulBaru->kata, kata);
-    simpulBaru->berikutnya = NULL;
-    return simpulBaru;
+    strcpy(newNode->word, word);
+    newNode->next = NULL;
+    return newNode;
 }
 
 // Array dari linked list
-Simpul* kamus[26] = { NULL };
+Node* dictionary[26] = { NULL };
 
 // Fungsi untuk menambahkan kata ke dalam kamus
-void tambahKata(const char* kata) {
-    char hurufPertama = tolower(kata[0]);
-    if (hurufPertama >= 'a' && hurufPertama <= 'z') {
-        int indeks = hurufPertama - 'a';
-        Simpul* simpulBaru = buatSimpul(kata);
-        simpulBaru->berikutnya = kamus[indeks];
-        kamus[indeks] = simpulBaru;
+void addWord(const char* word) {
+    char firstLetter = tolower(word[0]);
+    if (firstLetter >= 'a' && firstLetter <= 'z') {
+        int index = firstLetter - 'a';
+        Node* newNode = createNode(word);
+        newNode->next = dictionary[index];
+        dictionary[index] = newNode;
     }
 }
 
 // Fungsi untuk menampilkan kata berdasarkan huruf pertama
-void tampilkanKata(char huruf) {
-    huruf = tolower(huruf);
-    if (huruf >= 'a' && huruf <= 'z') {
-        int indeks = huruf - 'a';
-        Simpul* sekarang = kamus[indeks];
-        int jumlah = 0;
-        if (!sekarang) {
-            printf("Kata dengan huruf awal %c tidak ditemukan.\n", huruf);
+void displayWords(char letter) {
+    letter = tolower(letter);
+    if (letter >= 'a' && letter <= 'z') {
+        int index = letter - 'a';
+        Node* current = dictionary[index];
+        int count = 0;
+        if (!current) {
+            printf("Tidak ada kata yang ditemukan dengan huruf awal %c.\n", letter);
         } else {
-            while (sekarang && jumlah < MAKS_TAMPILAN) {
-                printf("%s\n", sekarang->kata);
-                sekarang = sekarang->berikutnya;
-                jumlah++;
+            while (current && count < MAX_DISPLAY) {
+                printf("%s\n", current->word);
+                current = current->next;
+                count++;
             }
         }
     }
 }
 
 // Fungsi untuk menghapus kata dari kamus
-void hapusKata(const char* kata) {
-    char hurufPertama = tolower(kata[0]);
-    if (hurufPertama >= 'a' && hurufPertama <= 'z') {
-        int indeks = hurufPertama - 'a';
-        Simpul* sekarang = kamus[indeks];
-        Simpul* sebelumnya = NULL;
+void deleteWord(const char* word) {
+    char firstLetter = tolower(word[0]);
+    if (firstLetter >= 'a' && firstLetter <= 'z') {
+        int index = firstLetter - 'a';
+        Node* current = dictionary[index];
+        Node* previous = NULL;
 
-        while (sekarang && strcmp(sekarang->kata, kata) != 0) {
-            sebelumnya = sekarang;
-            sekarang = sekarang->berikutnya;
+        while (current && strcmp(current->word, word) != 0) {
+            previous = current;
+            current = current->next;
         }
 
-        if (!sekarang) {
-            printf("Kata '%s' tidak ditemukan.\n", kata);
+        if (!current) {
+            printf("Kata '%s' tidak ditemukan.\n", word);
         } else {
-            if (sebelumnya) {
-                sebelumnya->berikutnya = sekarang->berikutnya;
+            if (previous) {
+                previous->next = current->next;
             } else {
-                kamus[indeks] = sekarang->berikutnya;
+                dictionary[index] = current->next;
             }
-            free(sekarang);
-            printf("Kata '%s' dihapus.\n", kata);
+            free(current);
+            printf("Kata '%s' dihapus.\n", word);
         }
     }
 }
@@ -91,33 +91,38 @@ int main() {
         return 1;
     }
 
-    char kata[PANJANG_KATA_MAKS];
-    while (fscanf(file, "%s", kata) != EOF) {
-        tambahKata(kata);
+    char word[MAX_WORD_LENGTH];
+    while (fscanf(file, "%s", word) != EOF) {
+        addWord(word);
     }
     fclose(file);
 
-    int pilihan;
-    char huruf;
-    char kataHapus[PANJANG_KATA_MAKS];
+    int choice;
+    char letter;
+    char wordToDelete[MAX_WORD_LENGTH];
 
     while (1) {
         printf("\nMenu Pilihan:\n");
-        printf("1) Menampilkan kata-kata sesuai huruf pertama yang ditentukan\n");
-        printf("2) Menghapus kata tertentu dalam linked list\n");
+        printf("1) Tampilkan kata-kata sesuai huruf pertama yang ditentukan\n");
+        printf("2) Hapus kata tertentu dalam linked list\n");
         printf("3) Selesai\n");
         printf("Pilihan anda: ");
-        scanf("%d", &pilihan);
+        if (scanf("%d", &choice) != 1) {
+            printf("Input tidak valid! Masukkan angka antara 1-3.\n");
+            while (getchar() != '\n'); // Bersihkan buffer
+            continue;
+        }
 
-        if (pilihan == 1) {
+        if (choice == 1) {
             printf("Masukkan huruf: ");
-            scanf(" %c", &huruf);
-            tampilkanKata(huruf);
-        } else if (pilihan == 2) {
+            while (getchar() != '\n'); // Bersihkan buffer sebelum membaca karakter
+            scanf("%c", &letter);
+            displayWords(letter);
+        } else if (choice == 2) {
             printf("Masukkan kata yang ingin dihapus: ");
-            scanf("%s", kataHapus);
-            hapusKata(kataHapus);
-        } else if (pilihan == 3) {
+            scanf("%s", wordToDelete);
+            deleteWord(wordToDelete);
+        } else if (choice == 3) {
             break;
         } else {
             printf("Pilihan tidak valid!\n");
@@ -126,10 +131,10 @@ int main() {
 
     // Bebaskan memori
     for (int i = 0; i < 26; ++i) {
-        Simpul* sekarang = kamus[i];
-        while (sekarang) {
-            Simpul* temp = sekarang;
-            sekarang = sekarang->berikutnya;
+        Node* current = dictionary[i];
+        while (current) {
+            Node* temp = current;
+            current = current->next;
             free(temp);
         }
     }
