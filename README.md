@@ -63,6 +63,8 @@ Kesimpulan
 Program ini berhasil mengimplementasikan array of linked list untuk pengelompokan kata secara efisien. Semua operasi seperti penambahan, pencarian, dan penghapusan kata telah diuji dan bekerja dengan baik.
 
 Semoga program ini sesuai dengan ketentuan tugas dan mendapatkan nilai maksimal! 🚀
+
+Dapat dilihat juga di link github berikut ini https://github.com/tasyazahrani/TasyaZahrani_2308107010006_D.git
  
 (c) 2025 - tasyazahrani
 
