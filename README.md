@@ -1,6 +1,4 @@
-﻿# TasyaZahrani_2308107010006_D
-
-STRUKTUR DATA DAN ALGORITMA
+﻿# STRUKTUR DATA DAN ALGORITMA
 
 Informasi Mahasiswa
 Nama    : Tasya Zahrani
