@@ -64,5 +64,7 @@ Program ini berhasil mengimplementasikan array of linked list untuk pengelompoka
 
 Semoga program ini sesuai dengan ketentuan tugas dan mendapatkan nilai maksimal! 🚀
 
+Dapat dilihat juga di link github berikut ini https://github.com/tasyazahrani/TasyaZahrani_2308107010006_D.git 
+
 (c) 2025 - tasyazahrani
 
