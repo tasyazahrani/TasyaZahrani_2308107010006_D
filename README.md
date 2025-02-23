@@ -1,6 +1,6 @@
 ﻿# TasyaZahrani_2308107010006_D
 
-README - Struktur Data dan Algoritma: Kamus Berbasis Linked List
+STRUKTUR DATA DAN ALGORITMA
 
 Informasi Mahasiswa
 Nama    : Tasya Zahrani
