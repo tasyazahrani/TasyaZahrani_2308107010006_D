@@ -27,7 +27,7 @@ Node* createNode(const char* word) {
 // Array dari linked list
 Node* dictionary[26] = { NULL };
 
-// Fungsi untuk menambahkan kata ke dalam kamus
+// Fungsi untuk menambahkan kata ke dalam file dbterms.txt
 void addWord(const char* word) {
     char firstLetter = tolower(word[0]);
     if (firstLetter >= 'a' && firstLetter <= 'z') {
@@ -57,7 +57,7 @@ void displayWords(char letter) {
     }
 }
 
-// Fungsi untuk menghapus kata dari kamus
+// Fungsi untuk menghapus kata dari dbterms.txt
 void deleteWord(const char* word) {
     char firstLetter = tolower(word[0]);
     if (firstLetter >= 'a' && firstLetter <= 'z') {
@@ -103,7 +103,7 @@ int main() {
 
     while (1) {
         printf("\nMenu Pilihan:\n");
-        printf("1) Tampilkan kata-kata sesuai huruf pertama yang ditentukan\n");
+        printf("1) Tampilkan kata-kata sesuai huruf pertama yang telah di input\n");
         printf("2) Hapus kata tertentu dalam linked list\n");
         printf("3) Selesai\n");
         printf("Pilihan anda: ");
